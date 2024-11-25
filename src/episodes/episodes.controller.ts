@@ -1,13 +1,18 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { EpisodesService } from './episodes.service';
-import { CreateEpisodeDto } from 'src/dto/create-episode.dto';
+import { CreateEpisodeDto } from '../dto/create-episode.dto';
+import { ConfigService } from '../config/config.service';
 
 @Controller('episodes')
 export class EpisodesController {
-  constructor(private episodesServices: EpisodesService) {}
+  constructor(
+    private episodesServices: EpisodesService,
+    private configServices: ConfigService,
+  ) {}
   @Get()
   findAll(@Query('sort') sort: 'asc' | 'desc' = 'desc') {
-    console.log(sort, 'hola');
+    console.log(sort);
+    console.log(this.configServices.settings());
     return this.episodesServices.findAll(sort);
   }
 
